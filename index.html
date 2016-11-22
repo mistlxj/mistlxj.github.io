@@ -87,7 +87,7 @@
       <ul>
         
           <li>
-            <a href="/2016/11/22/快速排序实现之递归与非递归/">(no title)</a>
+            <a href="/2016/11/22/快速排序实现之递归与非递归/">快速排序实现之递归与非递归</a>
           </li>
         
           <li>
@@ -132,13 +132,20 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/22/快速排序实现之递归与非递归/">快速排序实现之递归与非递归</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="title-快速排序实现之递归与非递归"><a href="#title-快速排序实现之递归与非递归" class="headerlink" title="title:快速排序实现之递归与非递归"></a>title:快速排序实现之递归与非递归</h2><h3 id="一、算法思想："><a href="#一、算法思想：" class="headerlink" title="一、算法思想："></a>一、算法思想：</h3><blockquote>
-<p>快速排序是C.R.A.Hoare于1962年提出的一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide-and-ConquerMethod)。设当前待排序的无序区为R[low..high]，利用分治法可将快速排序的基本思想描述为：在R[low..high]中任选一个记录作为基准(Pivot)，以此基准将当前无序区划分为左、右两个较小的子区间R[low..pivotpos-1)和R[pivotpos+1..high]，并使左边子区间中所有记录的关键字均小于等于基准记录(不妨记为pivot)的关键字pivot.key，右边的子区间中所有记录的关键字均大于等于pivot.key，而基准记录pivot则位于正确的位置(pivotpos)上。通过递归调用快速排序对左、右子区间R[low..pivotpos-1]和R[pivotpos+1..high]快速排序。</p>
-</blockquote>
-<h3 id="二、算法实现："><a href="#二、算法实现：" class="headerlink" title="二、算法实现："></a>二、算法实现：</h3><h5 id="1、递归"><a href="#1、递归" class="headerlink" title="1、递归"></a>1、递归</h5><pre><code>private static void rec_quickSort(int[] a, int start, int end) {
+        <h3 id="一、算法思想："><a href="#一、算法思想：" class="headerlink" title="一、算法思想："></a>一、算法思想：</h3><pre><code>快速排序是C.R.A.Hoare于1962年提出的一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide-and-ConquerMethod)。设当前待排序的无序区为R[low..high]，利用分治法可将快速排序的基本思想描述为：在R[low..high]中任选一个记录作为基准(Pivot)，以此基准将当前无序区划分为左、右两个较小的子区间R[low..pivotpos-1)和R[pivotpos+1..high]，并使左边子区间中所有记录的关键字均小于等于基准记录(不妨记为pivot)的关键字pivot.key，右边的子区间中所有记录的关键字均大于等于pivot.key，而基准记录pivot则位于正确的位置(pivotpos)上。通过递归调用快速排序对左、右子区间R[low..pivotpos-1]和R[pivotpos+1..high]快速排序。
+</code></pre><h3 id="二、算法实现："><a href="#二、算法实现：" class="headerlink" title="二、算法实现："></a>二、算法实现：</h3><h5 id="1、递归"><a href="#1、递归" class="headerlink" title="1、递归"></a>1、递归</h5><pre><code>private static void rec_quickSort(int[] a, int start, int end) {
     int index = 0;
     if(start &lt; end) {
         index = partition(a,start,end);
@@ -207,7 +214,7 @@ private static int partition(int[] a, int start, int end) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/22/快速排序实现之递归与非递归/" data-id="civtf72g500017o098lmjxy2c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/11/22/快速排序实现之递归与非递归/" data-id="civtf9mus00017g09cnfe5i49" class="article-share-link">Share</a>
       
       
     </footer>
@@ -311,7 +318,7 @@ private static int partition(int[] a, int start, int end) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/" data-id="civtf72g100007o09olvot17b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/" data-id="civtf9muo00007g09ulofm2s1" class="article-share-link">Share</a>
       
       
     </footer>
