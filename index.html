@@ -75,7 +75,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -85,6 +85,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/11/22/快速排序实现之递归与非递归/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2016/11/14/关于MMC-MAPI多版本设计的一点想法/">关于MMC-MAPI多版本设计的一点想法</a>
@@ -117,6 +121,101 @@
 </aside>
         
         <section id="main">
+  
+    <article id="post-快速排序实现之递归与非递归" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/22/快速排序实现之递归与非递归/" class="article-date">
+  <time datetime="2016-11-22T11:30:39.496Z" itemprop="datePublished">2016-11-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="title-快速排序实现之递归与非递归"><a href="#title-快速排序实现之递归与非递归" class="headerlink" title="title:快速排序实现之递归与非递归"></a>title:快速排序实现之递归与非递归</h2><h3 id="一、算法思想："><a href="#一、算法思想：" class="headerlink" title="一、算法思想："></a>一、算法思想：</h3><blockquote>
+<p>快速排序是C.R.A.Hoare于1962年提出的一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide-and-ConquerMethod)。设当前待排序的无序区为R[low..high]，利用分治法可将快速排序的基本思想描述为：在R[low..high]中任选一个记录作为基准(Pivot)，以此基准将当前无序区划分为左、右两个较小的子区间R[low..pivotpos-1)和R[pivotpos+1..high]，并使左边子区间中所有记录的关键字均小于等于基准记录(不妨记为pivot)的关键字pivot.key，右边的子区间中所有记录的关键字均大于等于pivot.key，而基准记录pivot则位于正确的位置(pivotpos)上。通过递归调用快速排序对左、右子区间R[low..pivotpos-1]和R[pivotpos+1..high]快速排序。</p>
+</blockquote>
+<h3 id="二、算法实现："><a href="#二、算法实现：" class="headerlink" title="二、算法实现："></a>二、算法实现：</h3><h5 id="1、递归"><a href="#1、递归" class="headerlink" title="1、递归"></a>1、递归</h5><pre><code>private static void rec_quickSort(int[] a, int start, int end) {
+    int index = 0;
+    if(start &lt; end) {
+        index = partition(a,start,end);
+        rec_quickSort(a,start,index-1);
+        rec_quickSort(a,index+1,end);
+    }
+}
+
+private static int partition(int[] a, int start, int end) {
+    int pivot = a[start];
+    while(start &lt; end) {
+        while(start &lt; end &amp;&amp; a[end] &gt;= pivot)
+            end--;
+        a[start] = a[end];
+        while(start &lt; end &amp;&amp; a[start] &lt;= pivot)
+            start++;
+        a[end] = a[start];
+    }
+    a[start] = pivot;
+    return start;
+}
+</code></pre><h5 id="2、非递归"><a href="#2、非递归" class="headerlink" title="2、非递归"></a>2、非递归</h5><pre><code>private static void nonRec_quickSort(int[] a,int start,int end) {
+    LinkedList&lt;Integer&gt; stack = new LinkedList&lt;Integer&gt;();  //用栈模拟
+    if(start &lt; end) {
+        stack.push(end);
+        stack.push(start);
+        while(!stack.isEmpty()) {
+            int l = stack.pop();
+            int r = stack.pop();
+            int index = partition(a, l, r);
+            if(l &lt; index - 1) {
+                stack.push(index-1);
+                stack.push(l);
+            }
+            if(r &gt; index + 1) {
+                stack.push(r);
+                stack.push(index+1);
+            }
+        }
+    }
+}
+
+private static int partition(int[] a, int start, int end) {
+    int pivot = a[start];
+    while(start &lt; end) {
+        while(start &lt; end &amp;&amp; a[end] &gt;= pivot)
+            end--;
+        a[start] = a[end];
+        while(start &lt; end &amp;&amp; a[start] &lt;= pivot)
+            start++;
+        a[end] = a[start];
+    }
+    a[start] = pivot;
+    return start;
+}
+</code></pre><h3 id="三、算法分析："><a href="#三、算法分析：" class="headerlink" title="三、算法分析："></a>三、算法分析：</h3><blockquote>
+<p>快速排序的时间主要耗费在划分操作上，对长度为k的区间进行划分，共需k-1次关键字的比较。</p>
+</blockquote>
+<h5 id="1、最坏时间复杂度"><a href="#1、最坏时间复杂度" class="headerlink" title="1、最坏时间复杂度"></a>1、最坏时间复杂度</h5><blockquote>
+<p>最坏情况是每次划分选取的基准都是当前无序区中关键字最小(或最大)的记录，划分的结果是基准左边的子区间为空(或右边的子区间为空)，而划分所得的另一个非空的子区间中记录数目，仅仅比划分前的无序区中记录个数减少一个。因此，快速排序必须做n-1次划分，第i次划分开始时区间长度为n-i+1，所需的比较次数为n-i(1≤i≤n-1)，故总的比较次数达到最大值：Cmax= n(n-1)/2=O(n2)</p>
+<h5 id="2、最好时间复杂度"><a href="#2、最好时间复杂度" class="headerlink" title="2、最好时间复杂度"></a>2、最好时间复杂度</h5><p>在最好情况下，每次划分所取的基准都是当前无序区的”中值”记录，划分的结果是基准的左、右两个无序子区间的长度大致相等。总的关键字比较次数：0(nlgn)<br>注意：用递归树来分析最好情况下的比较次数更简单。因为每次划分后左、右子区间长度大致相等，故递归树的高度为O(lgn)，而递归树每一层上各结点所对应的划分过程中所需要的关键字比较次数总和不超过n，故整个排序过程所需要的关键字比较总次数C(n)=O(nlgn)。<br>因为快速排序的记录移动次数不大于比较的次数，所以快速排序的最坏时间复杂度应为0(n2)，最好时间复杂度为O(nlgn)。</p>
+<h5 id="3、空间复杂度"><a href="#3、空间复杂度" class="headerlink" title="3、空间复杂度"></a>3、空间复杂度</h5><p>快速排序在系统内部需要一个栈来实现递归。若每次划分较为均匀，则其递归树的高度为O(lgn)，故递归后需栈空间为O(lgn)。最坏情况下，递归树的高度为O(n)，所需的栈空间为O(n)。</p>
+<h5 id="4、稳定性"><a href="#4、稳定性" class="headerlink" title="4、稳定性"></a>4、稳定性</h5><p>快速排序是非稳定的。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/22/快速排序实现之递归与非递归/" data-id="civtf72g500017o098lmjxy2c" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-关于MMC-MAPI多版本设计的一点想法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -212,7 +311,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/" data-id="civtdwvpl0000sc09d0d7m2fe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/" data-id="civtf72g100007o09olvot17b" class="article-share-link">Share</a>
       
       
     </footer>
