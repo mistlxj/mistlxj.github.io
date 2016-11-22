@@ -5,143 +5,53 @@
   
   <title>关于MMC-MAPI多版本设计的一点想法 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本周工作
-进度
-备注
-
-
-
-
-售车宝需求会议，新版本APP的讨论
-100%
-
-
-
-售后字段调整，新增字段
-100%
-同步维护UCBase
-
-
-配合售后提测
-
-
-
-讨论MMC_MAPI多版本问题
-
-@亚超，@张雷
-
-
-下周计划
-
-
-
-
-跟进MAPI新的需求
-100%
-
-
-
-
-
-关于MMC-MAPI多版本设计的一点想法
-业务场景
+  <meta name="description" content="业务场景
 
 APP多版本支持，对应多个API版本。
-版本数据可存储在DB中，">
+版本数据可存储在DB中，同时为提升速率，有必要缓存版本数据。
+每次版本迭代的时候，会变动版本配置文件，此时可以将配置文件的变动同步刷新到DB和缓存。
+
+
+
+一点疑问？？？
+
+APP多版本的维护，一般会维护几个版本，假设维护m个版本，对应于n个API版本（m&amp;gt;=n）
+版本迭代周期一般为每周一期或者两期
+如此，DB和缓存维护的版本信息的量，应该">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于MMC-MAPI多版本设计的一点想法">
 <meta property="og:url" content="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="本周工作
-进度
-备注
-
-
-
-
-售车宝需求会议，新版本APP的讨论
-100%
-
-
-
-售后字段调整，新增字段
-100%
-同步维护UCBase
-
-
-配合售后提测
-
-
-
-讨论MMC_MAPI多版本问题
-
-@亚超，@张雷
-
-
-下周计划
-
-
-
-
-跟进MAPI新的需求
-100%
-
-
-
-
-
-关于MMC-MAPI多版本设计的一点想法
-业务场景
+<meta property="og:description" content="业务场景
 
 APP多版本支持，对应多个API版本。
-版本数据可存储在DB中，">
+版本数据可存储在DB中，同时为提升速率，有必要缓存版本数据。
+每次版本迭代的时候，会变动版本配置文件，此时可以将配置文件的变动同步刷新到DB和缓存。
+
+
+
+一点疑问？？？
+
+APP多版本的维护，一般会维护几个版本，假设维护m个版本，对应于n个API版本（m&amp;gt;=n）
+版本迭代周期一般为每周一期或者两期
+如此，DB和缓存维护的版本信息的量，应该">
 <meta property="og:image" content="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/e7cd7b899e510fb320e0eca2d033c895d1430c0d.jpg">
-<meta property="og:updated_time" content="2016-11-22T09:22:10.176Z">
+<meta property="og:updated_time" content="2016-11-22T09:31:43.800Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于MMC-MAPI多版本设计的一点想法">
-<meta name="twitter:description" content="本周工作
-进度
-备注
-
-
-
-
-售车宝需求会议，新版本APP的讨论
-100%
-
-
-
-售后字段调整，新增字段
-100%
-同步维护UCBase
-
-
-配合售后提测
-
-
-
-讨论MMC_MAPI多版本问题
-
-@亚超，@张雷
-
-
-下周计划
-
-
-
-
-跟进MAPI新的需求
-100%
-
-
-
-
-
-关于MMC-MAPI多版本设计的一点想法
-业务场景
+<meta name="twitter:description" content="业务场景
 
 APP多版本支持，对应多个API版本。
-版本数据可存储在DB中，">
+版本数据可存储在DB中，同时为提升速率，有必要缓存版本数据。
+每次版本迭代的时候，会变动版本配置文件，此时可以将配置文件的变动同步刷新到DB和缓存。
+
+
+
+一点疑问？？？
+
+APP多版本的维护，一般会维护几个版本，假设维护m个版本，对应于n个API版本（m&amp;gt;=n）
+版本迭代周期一般为每周一期或者两期
+如此，DB和缓存维护的版本信息的量，应该">
 <meta name="twitter:image" content="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/e7cd7b899e510fb320e0eca2d033c895d1430c0d.jpg">
   
   
@@ -274,49 +184,7 @@ APP多版本支持，对应多个API版本。
     
     <div class="article-entry" itemprop="articleBody">
       
-        <table>
-<thead>
-<tr>
-<th>本周工作</th>
-<th>进度</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>售车宝需求会议，新版本APP的讨论</td>
-<td>100%</td>
-<td></td>
-</tr>
-<tr>
-<td>售后字段调整，新增字段</td>
-<td>100%</td>
-<td>同步维护UCBase</td>
-</tr>
-<tr>
-<td>配合售后提测</td>
-<td></td>
-</tr>
-<tr>
-<td>讨论MMC_MAPI多版本问题</td>
-<td></td>
-<td>@亚超，@张雷</td>
-</tr>
-<tr>
-<td><strong>下周计划</strong></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>跟进MAPI新的需求</td>
-<td>100%</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="关于MMC-MAPI多版本设计的一点想法"><a href="#关于MMC-MAPI多版本设计的一点想法" class="headerlink" title="关于MMC-MAPI多版本设计的一点想法"></a>关于MMC-MAPI多版本设计的一点想法</h2><hr>
-<h3 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h3><blockquote>
+        <h3 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h3><blockquote>
 <ol>
 <li>APP多版本支持，对应多个API版本。</li>
 <li>版本数据可存储在DB中，同时为提升速率，有必要缓存版本数据。</li>
@@ -332,7 +200,7 @@ APP多版本支持，对应多个API版本。
 </ol>
 </blockquote>
 <hr>
-<h3 id="MMC-MAPI返回给客户端数据结构的设计"><a href="#MMC-MAPI返回给客户端数据结构的设计" class="headerlink" title="MMC-MAPI返回给客户端数据结构的设计"></a>MMC-MAPI返回给客户端数据结构的设计</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MMCResult</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">6029022489278379070L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">    * code码，分成三类：两类稳态:正常返回和系统错误，一类暂态：升级，其中升级包括强制升级和可选升级，暂态会经过升级流程之后转换为稳态</div><div class="line">    * 系统错误码，可以按照业务和行为来定义，如8个bit位表示，前两位保留，次两位对应业务，后次两位对应操作行为，最次两位用于具体的自定义</div><div class="line">    * */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> code;</div><div class="line"></div><div class="line">    <span class="comment">/*结果集*/</span></div><div class="line">    <span class="keyword">private</span> T re;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">    * 提示信息</div><div class="line">    * */</div><div class="line">    <span class="keyword">private</span> String msg;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">    * 最新版本号</div><div class="line">    * */</div><div class="line">    <span class="keyword">private</span> Integer versionNo;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">    * 最新版本地址</div><div class="line">    * */</div><div class="line">    <span class="keyword">private</span> String versionUrl;</div></pre></td></tr></table></figure>
+<h3 id="MMC-MAPI返回给客户端数据结构的设计"><a href="#MMC-MAPI返回给客户端数据结构的设计" class="headerlink" title="MMC-MAPI返回给客户端数据结构的设计"></a>MMC-MAPI返回给客户端数据结构的设计</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public class MMCResult&lt;T&gt; implements Serializable &#123;</div><div class="line"></div><div class="line">    private static final long serialVersionUID = -6029022489278379070L;</div><div class="line">    /*</div><div class="line">    * code码，分成三类：两类稳态:正常返回和系统错误，一类暂态：升级，其中升级包括强制升级和可选升级，暂态会经过升级流程之后转换为稳态</div><div class="line">    * 系统错误码，可以按照业务和行为来定义，如8个bit位表示，前两位保留，次两位对应业务，后次两位对应操作行为，最次两位用于具体的自定义</div><div class="line">    * */</div><div class="line">    private int code;</div><div class="line"></div><div class="line">    /*结果集*/</div><div class="line">    private T re;</div><div class="line"></div><div class="line">    /*</div><div class="line">    * 提示信息</div><div class="line">    * */</div><div class="line">    private String msg;</div><div class="line"></div><div class="line">    /*</div><div class="line">    * 最新版本号</div><div class="line">    * */</div><div class="line">    private Integer versionNo;</div><div class="line"></div><div class="line">    /*</div><div class="line">    * 最新版本地址</div><div class="line">    * */</div><div class="line">    private String versionUrl;</div></pre></td></tr></table></figure>
 <p><strong><em>将最新版本号和URL地址返回给客户端</em></strong></p>
 <hr>
 <h3 id="数据库表结构的简单设计"><a href="#数据库表结构的简单设计" class="headerlink" title="数据库表结构的简单设计"></a>数据库表结构的简单设计</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VersionDto</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">VersionDto</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer versionNo; <span class="comment">//版本号</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> String versionDesc; <span class="comment">//版本描述</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> String versionUrl; <span class="comment">//版本URL</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> Integer sortId; <span class="comment">//排序ID</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> Boolean isGrave; <span class="comment">// 是否是灰度版本</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> Boolean isDelete; <span class="comment">// 是否删除</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> createTime; <span class="comment">// 创建时间</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> updateTime; <span class="comment">// 更新时间</span></div></pre></td></tr></table></figure>
@@ -350,7 +218,7 @@ APP多版本支持，对应多个API版本。
 <li>最新版本的判断和获取</li>
 </ol>
 </blockquote>
-<h5 id="缓存结构"><a href="#缓存结构" class="headerlink" title="缓存结构"></a>缓存结构</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Map&lt;Integer,VersionDto&gt; innerCache = <span class="keyword">new</span> ConcurrentSkipListMap&lt;Integer,VersionDto&gt;();</div></pre></td></tr></table></figure>
+<h5 id="缓存结构"><a href="#缓存结构" class="headerlink" title="缓存结构"></a>缓存结构</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Map&lt;Integer,VersionDto&gt; innerCache = new ConcurrentSkipListMap&lt;Integer,VersionDto&gt;();</div></pre></td></tr></table></figure>
 <blockquote>
 <ol>
 <li>使用并发跳表MAP，以versionNo为key，VersionDto为Value,保证并发情况下简单的排序功能</li>
@@ -388,7 +256,7 @@ APP多版本支持，对应多个API版本。
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/" data-id="civtalqfs0001y009i285cwvk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/" data-id="civtaymvq000178091vm23kbj" class="article-share-link">Share</a>
       
       
     </footer>
