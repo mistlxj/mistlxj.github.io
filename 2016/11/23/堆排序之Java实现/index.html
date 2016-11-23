@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>堆排序之Java实现 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、堆的概念：　　堆是一种数据结构，是一棵像这样的完全二叉树，其任何一非叶节点的关键字不大于或者不小于其左右孩子节点的关键字。堆分为大顶堆和小顶堆，满足Key[i]&amp;gt;=Key[2i+1]&amp;amp;&amp;amp;key&amp;gt;=key[2i+2]称为大顶堆，满足 Key[i]&amp;lt;=key[2i+1]&amp;amp;&amp;amp;Key[i]&amp;lt;=key[2i+2]称为小顶堆。Java中的优先队列Pr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="堆排序之Java实现">
+<meta property="og:url" content="http://yoursite.com/2016/11/23/堆排序之Java实现/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、堆的概念：　　堆是一种数据结构，是一棵像这样的完全二叉树，其任何一非叶节点的关键字不大于或者不小于其左右孩子节点的关键字。堆分为大顶堆和小顶堆，满足Key[i]&amp;gt;=Key[2i+1]&amp;amp;&amp;amp;key&amp;gt;=key[2i+2]称为大顶堆，满足 Key[i]&amp;lt;=key[2i+1]&amp;amp;&amp;amp;Key[i]&amp;lt;=key[2i+2]称为小顶堆。Java中的优先队列Pr">
+<meta property="og:updated_time" content="2016-11-23T02:44:40.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="堆排序之Java实现">
+<meta name="twitter:description" content="一、堆的概念：　　堆是一种数据结构，是一棵像这样的完全二叉树，其任何一非叶节点的关键字不大于或者不小于其左右孩子节点的关键字。堆分为大顶堆和小顶堆，满足Key[i]&amp;gt;=Key[2i+1]&amp;amp;&amp;amp;key&amp;gt;=key[2i+2]称为大顶堆，满足 Key[i]&amp;lt;=key[2i+1]&amp;amp;&amp;amp;Key[i]&amp;lt;=key[2i+2]称为小顶堆。Java中的优先队列Pr">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'> -->
+  <!-- <link href="//fonts.googleapis.com/css?family=Source+Code+Pro:400,700" rel="stylesheet" type="text/css"> -->
+  <link href="//fonts.useso.com/css?family=Source+Code+Pro:400,700" rel="stylesheet" type="text/css">
+  <link href='//fonts.useso.com/css?family=Open+Sans:300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <a href="/" class="logo">Hexo</a>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about/index.html">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/ppoffice/hexo-theme-alex" title="Fork me on GitHub"></a>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+      <nav id="mobile-nav" class="off">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about/index.html" class="mobile-nav-link">About</a>
+  
+  <div id="search-form-wrap-mobile">
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+  </div>
+</nav>
+      <div class="outer">
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/11/23/堆排序之Java实现/">堆排序之Java实现</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/22/快速排序实现之递归与非递归/">快速排序实现之递归与非递归</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/14/关于MMC-MAPI多版本设计的一点想法/">关于MMC-MAPI多版本设计的一点想法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://hexo.io">Hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+        <section id="main"><article id="post-堆排序之Java实现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/23/堆排序之Java实现/" class="article-date">
+  <time datetime="2016-11-23T02:44:40.048Z" itemprop="datePublished">2016-11-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      堆排序之Java实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、堆的概念："><a href="#一、堆的概念：" class="headerlink" title="一、堆的概念："></a>一、堆的概念：</h3><p>　　堆是一种数据结构，是一棵像这样的完全二叉树，其任何一非叶节点的关键字不大于或者不小于其左右孩子节点的关键字。堆分为大顶堆和小顶堆，满足Key[i]&gt;=Key[2i+1]&amp;&amp;key&gt;=key[2i+2]称为大顶堆，满足 Key[i]&lt;=key[2i+1]&amp;&amp;Key[i]&lt;=key[2i+2]称为小顶堆。Java中的优先队列PriorityQueue就是基于堆这种数据结构来实现的。</p>
+<h3 id="二、堆排序的思想："><a href="#二、堆排序的思想：" class="headerlink" title="二、堆排序的思想："></a>二、堆排序的思想：</h3><p>　　堆排序主要分为两步，建立初始堆，以及移除堆顶元素后的调整，我们以大顶堆为例描述，假设存在整型数组int[] R，数组中有n个元素，那么其堆排序思想如下：</p>
+<p>　　1、将初始待排序关键字序列(R0,R2….Rn-1)构建成大顶堆，此堆为初始的无序区；</p>
+<p>　　2、将堆顶元素R[0]与最后一个元素R[n-1]交换，此时得到新的无序区(R0,R2,……Rn-2)和新的有序区(Rn-1),且满足R[0,2…n-2]&lt;=R[n-1]; </p>
+<p>　　3、由于交换后新的堆顶R[0]可能违反堆的性质，因此需要对当前无序区(R0,R2,……Rn-2)调整为新堆，然后再次将R[0]与无序区最后一个元素交换，得到新的无序区(R0,R2….Rn-3)和新的有序区(Rn-2,Rn-1)。不断重复此过程直到有序区的元素个数为n-1，则整个排序过程完成。</p>
+<h3 id="三、算法实现之Java："><a href="#三、算法实现之Java：" class="headerlink" title="三、算法实现之Java："></a>三、算法实现之Java：</h3><pre><code>private static void heapSort(int[] a) {
+    //建立初始堆
+    for(int i=a.length/2;i&gt;=0;i--) {
+        maxHeap(a,a.length,i);  //对整个数组从[a.length/2]处开始调整，到0下标为止
+    }
+    //去掉根节点后，重新调整
+    for(int i=a.length-1;i&gt;=1;i--) {
+        swap(a,i,0);
+        maxHeap(a,i,0);
+    }
+}
+
+private static void swap(int[] a,int i,int j) {
+    int tmp = a[i];
+    a[i] = a[j];
+    a[j] = tmp;
+}
+
+private static void maxHeap(int[] a,int heapSize,int index){  //沉降法调整
+    int left = 2 * index + 1;
+    int right = 2 * index + 2;
+    int largeMax = index;
+    if(left &lt; heapSize &amp;&amp; a[left] &gt; a[largeMax]) {
+        largeMax = left;
+    }
+    if(right &lt; heapSize &amp;&amp; a[right] &gt; a[largeMax]) {
+        largeMax = right;
+    }
+
+    if(largeMax != index) {
+        swap(a,index,largeMax);
+        maxHeap(a,heapSize,largeMax);
+    }
+}
+</code></pre><h3 id="四、算法分析："><a href="#四、算法分析：" class="headerlink" title="四、算法分析："></a>四、算法分析：</h3><p>　　涉及到循环和二叉树高度的计算，时间复杂度为O(n*log2^n)，只用到一个额外的辅助空间，空间复杂度为O(1)。</p>
+<p>　　堆排序典型的适用场景是从XXXX多个记录里，找出前X个最小的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/23/堆排序之Java实现/" data-id="civubuh120002lc09lm3ge8xw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/11/22/快速排序实现之递归与非递归/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">快速排序实现之递归与非递归</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a href="/" class="logo">Hexo</a>
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.scrollLoading.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
