@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>关于MMC-MAPI多版本设计的一点想法 | Hexo</title>
+  <title>关于MAPI多版本设计的一点想法 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="业务场景
 
@@ -19,7 +19,7 @@ APP多版本的维护，一般会维护几个版本，假设维护m个版本，�
 版本迭代周期一般为每周一期或者两期
 如此，DB和缓存维护的版本信息的量，应该">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于MMC-MAPI多版本设计的一点想法">
+<meta property="og:title" content="关于MAPI多版本设计的一点想法">
 <meta property="og:url" content="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="业务场景
@@ -36,9 +36,9 @@ APP多版本的维护，一般会维护几个版本，假设维护m个版本，�
 版本迭代周期一般为每周一期或者两期
 如此，DB和缓存维护的版本信息的量，应该">
 <meta property="og:image" content="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/e7cd7b899e510fb320e0eca2d033c895d1430c0d.jpg">
-<meta property="og:updated_time" content="2016-11-22T09:31:43.800Z">
+<meta property="og:updated_time" content="2016-11-23T02:50:47.339Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于MMC-MAPI多版本设计的一点想法">
+<meta name="twitter:title" content="关于MAPI多版本设计的一点想法">
 <meta name="twitter:description" content="业务场景
 
 APP多版本支持，对应多个API版本。
@@ -137,7 +137,7 @@ APP多版本的维护，一般会维护几个版本，假设维护m个版本，�
           </li>
         
           <li>
-            <a href="/2016/11/14/关于MMC-MAPI多版本设计的一点想法/">关于MMC-MAPI多版本设计的一点想法</a>
+            <a href="/2016/11/14/关于MMC-MAPI多版本设计的一点想法/">关于MAPI多版本设计的一点想法</a>
           </li>
         
       </ul>
@@ -180,7 +180,7 @@ APP多版本的维护，一般会维护几个版本，假设维护m个版本，�
         
   
     <h1 class="article-title" itemprop="name">
-      关于MMC-MAPI多版本设计的一点想法
+      关于MAPI多版本设计的一点想法
     </h1>
   
 
@@ -204,11 +204,51 @@ APP多版本的维护，一般会维护几个版本，假设维护m个版本，�
 </ol>
 </blockquote>
 <hr>
-<h3 id="MMC-MAPI返回给客户端数据结构的设计"><a href="#MMC-MAPI返回给客户端数据结构的设计" class="headerlink" title="MMC-MAPI返回给客户端数据结构的设计"></a>MMC-MAPI返回给客户端数据结构的设计</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public class MMCResult&lt;T&gt; implements Serializable &#123;</div><div class="line"></div><div class="line">    private static final long serialVersionUID = -6029022489278379070L;</div><div class="line">    /*</div><div class="line">    * code码，分成三类：两类稳态:正常返回和系统错误，一类暂态：升级，其中升级包括强制升级和可选升级，暂态会经过升级流程之后转换为稳态</div><div class="line">    * 系统错误码，可以按照业务和行为来定义，如8个bit位表示，前两位保留，次两位对应业务，后次两位对应操作行为，最次两位用于具体的自定义</div><div class="line">    * */</div><div class="line">    private int code;</div><div class="line"></div><div class="line">    /*结果集*/</div><div class="line">    private T re;</div><div class="line"></div><div class="line">    /*</div><div class="line">    * 提示信息</div><div class="line">    * */</div><div class="line">    private String msg;</div><div class="line"></div><div class="line">    /*</div><div class="line">    * 最新版本号</div><div class="line">    * */</div><div class="line">    private Integer versionNo;</div><div class="line"></div><div class="line">    /*</div><div class="line">    * 最新版本地址</div><div class="line">    * */</div><div class="line">    private String versionUrl;</div></pre></td></tr></table></figure>
-<p><strong><em>将最新版本号和URL地址返回给客户端</em></strong></p>
+<h3 id="MAPI返回给客户端数据结构的设计"><a href="#MAPI返回给客户端数据结构的设计" class="headerlink" title="MAPI返回给客户端数据结构的设计"></a>MAPI返回给客户端数据结构的设计</h3><pre><code>public class MAPIResult&lt;T&gt; implements Serializable {
+
+    private static final long serialVersionUID = -6029022489278379070L;
+    /*
+    * code码，分成三类：两类稳态:正常返回和系统错误，一类暂态：升级，其中升级包括强制升级和可选升级，暂态会经过升级流程之后转换为稳态
+    * 系统错误码，可以按照业务和行为来定义，如8个bit位表示，前两位保留，次两位对应业务，后次两位对应操作行为，最次两位用于具体的自定义
+    * */
+    private int code;
+
+    /*结果集*/
+    private T re;
+
+    /*
+    * 提示信息
+    * */
+    private String msg;
+
+    /*
+    * 最新版本号
+    * */
+    private Integer versionNo;
+
+    /*
+    * 最新版本地址
+    * */
+    private String versionUrl;
+</code></pre><p><strong><em>将最新版本号和URL地址返回给客户端</em></strong></p>
 <hr>
-<h3 id="数据库表结构的简单设计"><a href="#数据库表结构的简单设计" class="headerlink" title="数据库表结构的简单设计"></a>数据库表结构的简单设计</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VersionDto</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">VersionDto</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer versionNo; <span class="comment">//版本号</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> String versionDesc; <span class="comment">//版本描述</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> String versionUrl; <span class="comment">//版本URL</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> Integer sortId; <span class="comment">//排序ID</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> Boolean isGrave; <span class="comment">// 是否是灰度版本</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> Boolean isDelete; <span class="comment">// 是否删除</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> createTime; <span class="comment">// 创建时间</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> updateTime; <span class="comment">// 更新时间</span></div></pre></td></tr></table></figure>
-<blockquote>
+<h3 id="数据库表结构的简单设计"><a href="#数据库表结构的简单设计" class="headerlink" title="数据库表结构的简单设计"></a>数据库表结构的简单设计</h3><pre><code>public class VersionDto implements Comparable&lt;VersionDto&gt; {
+    private Integer versionNo; //版本号
+
+    private String versionDesc; //版本描述
+
+    private String versionUrl; //版本URL
+
+    private Integer sortId; //排序ID
+
+    private Boolean isGrave; // 是否是灰度版本
+
+    private Boolean isDelete; // 是否删除
+
+    private long createTime; // 创建时间
+
+    private long updateTime; // 更新时间
+</code></pre><blockquote>
 <ol>
 <li>versionNo，作为主键，可以按其进行排序操作</li>
 <li>sortId字段，可以实现自定义的排序规则，用于排序和置换</li>
@@ -230,16 +270,92 @@ APP多版本的维护，一般会维护几个版本，假设维护m个版本，�
 <li>可以达到以O(1)的时间复杂度从缓存读取版本信息</li>
 </ol>
 </blockquote>
-<h5 id="缓存预热"><a href="#缓存预热" class="headerlink" title="缓存预热"></a>缓存预热</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//init，缓存预热</span></div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        <span class="comment">//从数据库中读出5条记录，以versionNo倒序排列</span></div><div class="line">        MySQLUtils mySQL = <span class="keyword">new</span> MySQLUtils();</div><div class="line">        mySQL.getConnection();</div><div class="line">        List&lt;Map&lt;String, Object&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;Map&lt;String, Object&gt;&gt;();</div><div class="line">        String sql2 = <span class="string">"select * from mapi_mutli_version order by versionNo desc limit 5"</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            list = mySQL.findModeResult(sql2,<span class="keyword">null</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        JSONArray array = JSON.parseArray(JSONUtil.toString(list));</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.size(); i++) &#123;</div><div class="line">            JSONObject obj = (JSONObject)array.get(i);</div><div class="line">            VersionDto versionInfo = <span class="keyword">new</span> VersionDto();</div><div class="line">            Integer versionNo = NumberUtils.toInt(obj.get(<span class="string">"versionNo"</span>).toString());</div><div class="line">            versionInfo.setVersionNo(versionNo);</div><div class="line">            versionInfo.setVersionUrl(obj.get(<span class="string">"versionUrl"</span>).toString());</div><div class="line">            versionInfo.setVersionDesc(obj.get(<span class="string">"versionDesc"</span>).toString());</div><div class="line">            innerCache.put(versionNo,versionInfo);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h5 id="缓存读写等"><a href="#缓存读写等" class="headerlink" title="缓存读写等"></a>缓存读写等</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//read，读</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> VersionDto <span class="title">read</span><span class="params">(Integer versionNo)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> innerCache.get(versionNo);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//write，写</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(VersionDto versionInfo)</span> </span>&#123;</div><div class="line">        innerCache.remove(<span class="number">0</span>);</div><div class="line">        innerCache.put(versionInfo.getVersionNo(),versionInfo);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//判断是否是最新版本</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Boolean <span class="title">isNewestVersion</span><span class="params">(Integer versionNo)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> innerCache.get(innerCache.size() - <span class="number">1</span>).getVersionNo() == versionNo;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//直接返回最新版本</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> VersionDto <span class="title">getNewestVersion</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> innerCache.get(innerCache.size() - <span class="number">1</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<hr>
+<h5 id="缓存预热"><a href="#缓存预热" class="headerlink" title="缓存预热"></a>缓存预热</h5><pre><code>//init，缓存预热
+static {
+    //从数据库中读出5条记录，以versionNo倒序排列
+    MySQLUtils mySQL = new MySQLUtils();
+    mySQL.getConnection();
+    List&lt;Map&lt;String, Object&gt;&gt; list = new ArrayList&lt;Map&lt;String, Object&gt;&gt;();
+    String sql2 = &quot;select * from mapi_mutli_version order by versionNo desc limit 5&quot;;
+    try {
+        list = mySQL.findModeResult(sql2,null);
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    JSONArray array = JSON.parseArray(JSONUtil.toString(list));
+
+    for (int i = 0; i &lt; array.size(); i++) {
+        JSONObject obj = (JSONObject)array.get(i);
+        VersionDto versionInfo = new VersionDto();
+        Integer versionNo = NumberUtils.toInt(obj.get(&quot;versionNo&quot;).toString());
+        versionInfo.setVersionNo(versionNo);
+        versionInfo.setVersionUrl(obj.get(&quot;versionUrl&quot;).toString());
+        versionInfo.setVersionDesc(obj.get(&quot;versionDesc&quot;).toString());
+        innerCache.put(versionNo,versionInfo);
+    }
+}
+</code></pre><h5 id="缓存读写等"><a href="#缓存读写等" class="headerlink" title="缓存读写等"></a>缓存读写等</h5><pre><code>//read，读
+public static VersionDto read(Integer versionNo) {
+    return innerCache.get(versionNo);
+}
+
+//write，写
+public static void write(VersionDto versionInfo) {
+    innerCache.remove(0);
+    innerCache.put(versionInfo.getVersionNo(),versionInfo);
+}
+
+//判断是否是最新版本
+public static Boolean isNewestVersion(Integer versionNo) {
+    return innerCache.get(innerCache.size() - 1).getVersionNo() == versionNo;
+}
+
+//直接返回最新版本
+public static VersionDto getNewestVersion() {
+    return innerCache.get(innerCache.size() - 1);
+}
+</code></pre><hr>
 <h3 id="版本检查的简单实现"><a href="#版本检查的简单实现" class="headerlink" title="版本检查的简单实现"></a>版本检查的简单实现</h3><blockquote>
 <ol>
-<li>客户端访问时会传输cid字段，可以用于校验<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> VersionVO <span class="title">checkVersion</span><span class="params">(String cid)</span> </span>&#123;</div><div class="line">        VersionVO vo = <span class="keyword">new</span> VersionVO();</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == cid || cid.length() != <span class="number">6</span>) &#123;</div><div class="line">            logger.error(<span class="string">"invalid cid"</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        Integer ver = NumberUtils.toInt(cid.substring(<span class="number">3</span>));</div><div class="line">        VersionDto dto = InnerCache.read(ver);</div><div class="line">        Boolean isNewest = InnerCache.isNewestVersion(ver);</div><div class="line">        <span class="keyword">if</span> (isNewest) &#123; <span class="comment">//缓存命中，无需升级</span></div><div class="line">            vo.setIsCanUpgrade(<span class="keyword">false</span>);</div><div class="line">            vo.setIsForceUpgrade(<span class="keyword">false</span>);</div><div class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 缓存命中，提示升级</span></div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != dto) &#123;</div><div class="line">                dto = InnerCache.getNewestVersion();</div><div class="line">                vo.setIsCanUpgrade(<span class="keyword">true</span>);</div><div class="line">                vo.setIsForceUpgrade(<span class="keyword">false</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">//没命中，强制升级，读库，更新缓存</span></div><div class="line">                <span class="comment">// todo 读库这一块如何设计？ 缓存失效时间？，以及并发请求如何上锁，防止DB跪？？？</span></div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    dto = MySQLUtils.queryByVersionNo(ver);</div><div class="line">                    InnerCache.write(dto);</div><div class="line">                    vo.setIsForceUpgrade(<span class="keyword">true</span>);</div><div class="line">                    vo.setIsCanUpgrade(<span class="keyword">true</span>);</div><div class="line">                &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        vo.setVersionUrl(dto.getVersionUrl());</div><div class="line">        vo.setVersionDesc(dto.getVersionDesc());</div><div class="line">        vo.setVersionNo(dto.getVersionNo());</div><div class="line">        <span class="keyword">return</span> vo;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-</li>
+<li>客户端访问时会传输cid字段，可以用于校验</li>
 </ol>
 </blockquote>
-<hr>
+<pre><code>private VersionVO checkVersion(String cid) {
+    VersionVO vo = new VersionVO();
+    if (null == cid || cid.length() != 6) {
+        logger.error(&quot;invalid cid&quot;);
+        return null;
+    }
+    Integer ver = NumberUtils.toInt(cid.substring(3));
+    VersionDto dto = InnerCache.read(ver);
+    Boolean isNewest = InnerCache.isNewestVersion(ver);
+    if (isNewest) { //缓存命中，无需升级
+        vo.setIsCanUpgrade(false);
+        vo.setIsForceUpgrade(false);
+    } else { // 缓存命中，提示升级
+        if (null != dto) {
+            dto = InnerCache.getNewestVersion();
+            vo.setIsCanUpgrade(true);
+            vo.setIsForceUpgrade(false);
+        } else { //没命中，强制升级，读库，更新缓存
+            // todo 读库这一块如何设计？ 缓存失效时间？，以及并发请求如何上锁，防止DB跪？？？
+            try {
+                dto = MySQLUtils.queryByVersionNo(ver);
+                InnerCache.write(dto);
+                vo.setIsForceUpgrade(true);
+                vo.setIsCanUpgrade(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    vo.setVersionUrl(dto.getVersionUrl());
+    vo.setVersionDesc(dto.getVersionDesc());
+    vo.setVersionNo(dto.getVersionNo());
+    return vo;
+}
+</code></pre><hr>
 <h3 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h3><p><img src="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/e7cd7b899e510fb320e0eca2d033c895d1430c0d.jpg" alt="代码结构"></p>
 <blockquote>
 <ol>
@@ -251,16 +367,13 @@ APP多版本的维护，一般会维护几个版本，假设维护m个版本，�
 </blockquote>
 <hr>
 <h3 id="后续展望-amp-总结"><a href="#后续展望-amp-总结" class="headerlink" title="后续展望&amp;总结"></a>后续展望&amp;总结</h3><blockquote>
-<ol>
-<li>灰度版本的情况，需要结合客户端基础数据的收集，可能需要一个MAPI数据分析平台来支撑，如此，版本发布管理的功能可以嵌入到数据分析平台中</li>
-<li>上周二郭哥找我和亚超说了多版本的事情，故此，自己有一些思考，里面肯定存在很多错误和不足，请指出。</li>
-</ol>
+<p>1.灰度版本的情况，需要结合客户端基础数据的收集，可能需要一个MAPI数据分析平台来支撑，如此，版本发布管理的功能可以嵌入到数据分析平台中<br>2.上周二郭哥找我和亚超说了多版本的事情，故此，自己有一些思考，里面肯定存在很多错误和不足，请指出。</p>
 </blockquote>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/" data-id="civubuh0w0000lc098gtag1xe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/" data-id="civuc2chh0001fs09w6buk2lc" class="article-share-link">Share</a>
       
       
     </footer>
