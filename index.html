@@ -75,7 +75,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -92,10 +92,6 @@
         
           <li>
             <a href="/2016/11/22/快速排序实现之递归与非递归/">快速排序实现之递归与非递归</a>
-          </li>
-        
-          <li>
-            <a href="/2016/11/14/关于MMC-MAPI多版本设计的一点想法/">关于MAPI多版本设计的一点想法</a>
           </li>
         
       </ul>
@@ -193,7 +189,7 @@ private static void maxHeap(int[] a,int heapSize,int index){  //沉降法调整
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/23/堆排序之Java实现/" data-id="civxgh7j90001w409ak38g8fy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/11/23/堆排序之Java实现/" data-id="cixb6nu0g00009c09i42qj8a6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -295,226 +291,7 @@ private static int partition(int[] a, int start, int end) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/22/快速排序实现之递归与非递归/" data-id="civxgh7jc0002w409qnlprrch" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-关于MMC-MAPI多版本设计的一点想法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/11/14/关于MMC-MAPI多版本设计的一点想法/" class="article-date">
-  <time datetime="2016-11-13T16:29:56.964Z" itemprop="datePublished">2016-11-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/14/关于MMC-MAPI多版本设计的一点想法/">关于MAPI多版本设计的一点想法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h3><blockquote>
-<ol>
-<li>APP多版本支持，对应多个API版本。</li>
-<li>版本数据可存储在DB中，同时为提升速率，有必要缓存版本数据。</li>
-<li>每次版本迭代的时候，会变动版本配置文件，此时可以将配置文件的变动同步刷新到DB和缓存。</li>
-</ol>
-</blockquote>
-<hr>
-<h3 id="一点疑问？？？"><a href="#一点疑问？？？" class="headerlink" title="一点疑问？？？"></a>一点疑问？？？</h3><blockquote>
-<ol>
-<li>APP多版本的维护，一般会维护几个版本，假设维护m个版本，对应于n个API版本（m&gt;=n）</li>
-<li>版本迭代周期一般为每周一期或者两期</li>
-<li>如此，DB和缓存维护的版本信息的量，应该是比较少的，这样造成缓存穿透和雪崩的概率是否也比较低？</li>
-</ol>
-</blockquote>
-<hr>
-<h3 id="MAPI返回给客户端数据结构的设计"><a href="#MAPI返回给客户端数据结构的设计" class="headerlink" title="MAPI返回给客户端数据结构的设计"></a>MAPI返回给客户端数据结构的设计</h3><pre><code>public class MAPIResult&lt;T&gt; implements Serializable {
-
-    private static final long serialVersionUID = -6029022489278379070L;
-    /*
-    * code码，分成三类：两类稳态:正常返回和系统错误，一类暂态：升级，其中升级包括强制升级和可选升级，暂态会经过升级流程之后转换为稳态
-    * 系统错误码，可以按照业务和行为来定义，如8个bit位表示，前两位保留，次两位对应业务，后次两位对应操作行为，最次两位用于具体的自定义
-    * */
-    private int code;
-
-    /*结果集*/
-    private T re;
-
-    /*
-    * 提示信息
-    * */
-    private String msg;
-
-    /*
-    * 最新版本号
-    * */
-    private Integer versionNo;
-
-    /*
-    * 最新版本地址
-    * */
-    private String versionUrl;
-</code></pre><p><strong><em>将最新版本号和URL地址返回给客户端</em></strong></p>
-<hr>
-<h3 id="数据库表结构的简单设计"><a href="#数据库表结构的简单设计" class="headerlink" title="数据库表结构的简单设计"></a>数据库表结构的简单设计</h3><pre><code>public class VersionDto implements Comparable&lt;VersionDto&gt; {
-    private Integer versionNo; //版本号
-
-    private String versionDesc; //版本描述
-
-    private String versionUrl; //版本URL
-
-    private Integer sortId; //排序ID
-
-    private Boolean isGrave; // 是否是灰度版本
-
-    private Boolean isDelete; // 是否删除
-
-    private long createTime; // 创建时间
-
-    private long updateTime; // 更新时间
-</code></pre><blockquote>
-<ol>
-<li>versionNo，作为主键，可以按其进行排序操作</li>
-<li>sortId字段，可以实现自定义的排序规则，用于排序和置换</li>
-</ol>
-</blockquote>
-<hr>
-<h3 id="内存缓存的简单设计"><a href="#内存缓存的简单设计" class="headerlink" title="内存缓存的简单设计"></a>内存缓存的简单设计</h3><h5 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h5><blockquote>
-<ol>
-<li>缓存的预热</li>
-<li>缓存的读、写</li>
-<li>最新版本的判断和获取</li>
-</ol>
-</blockquote>
-<h5 id="缓存结构"><a href="#缓存结构" class="headerlink" title="缓存结构"></a>缓存结构</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Map&lt;Integer,VersionDto&gt; innerCache = new ConcurrentSkipListMap&lt;Integer,VersionDto&gt;();</div></pre></td></tr></table></figure>
-<blockquote>
-<ol>
-<li>使用并发跳表MAP，以versionNo为key，VersionDto为Value,保证并发情况下简单的排序功能</li>
-<li>后续可以根据使用情况，可以设计页面置换算法，或者设计排序规则维护于数据库表sortId字段</li>
-<li>可以达到以O(1)的时间复杂度从缓存读取版本信息</li>
-</ol>
-</blockquote>
-<h5 id="缓存预热"><a href="#缓存预热" class="headerlink" title="缓存预热"></a>缓存预热</h5><pre><code>//init，缓存预热
-static {
-    //从数据库中读出5条记录，以versionNo倒序排列
-    MySQLUtils mySQL = new MySQLUtils();
-    mySQL.getConnection();
-    List&lt;Map&lt;String, Object&gt;&gt; list = new ArrayList&lt;Map&lt;String, Object&gt;&gt;();
-    String sql2 = &quot;select * from mapi_mutli_version order by versionNo desc limit 5&quot;;
-    try {
-        list = mySQL.findModeResult(sql2,null);
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-
-    JSONArray array = JSON.parseArray(JSONUtil.toString(list));
-
-    for (int i = 0; i &lt; array.size(); i++) {
-        JSONObject obj = (JSONObject)array.get(i);
-        VersionDto versionInfo = new VersionDto();
-        Integer versionNo = NumberUtils.toInt(obj.get(&quot;versionNo&quot;).toString());
-        versionInfo.setVersionNo(versionNo);
-        versionInfo.setVersionUrl(obj.get(&quot;versionUrl&quot;).toString());
-        versionInfo.setVersionDesc(obj.get(&quot;versionDesc&quot;).toString());
-        innerCache.put(versionNo,versionInfo);
-    }
-}
-</code></pre><h5 id="缓存读写等"><a href="#缓存读写等" class="headerlink" title="缓存读写等"></a>缓存读写等</h5><pre><code>//read，读
-public static VersionDto read(Integer versionNo) {
-    return innerCache.get(versionNo);
-}
-
-//write，写
-public static void write(VersionDto versionInfo) {
-    innerCache.remove(0);
-    innerCache.put(versionInfo.getVersionNo(),versionInfo);
-}
-
-//判断是否是最新版本
-public static Boolean isNewestVersion(Integer versionNo) {
-    return innerCache.get(innerCache.size() - 1).getVersionNo() == versionNo;
-}
-
-//直接返回最新版本
-public static VersionDto getNewestVersion() {
-    return innerCache.get(innerCache.size() - 1);
-}
-</code></pre><hr>
-<h3 id="版本检查的简单实现"><a href="#版本检查的简单实现" class="headerlink" title="版本检查的简单实现"></a>版本检查的简单实现</h3><blockquote>
-<ol>
-<li>客户端访问时会传输cid字段，可以用于校验</li>
-</ol>
-</blockquote>
-<pre><code>private VersionVO checkVersion(String cid) {
-    VersionVO vo = new VersionVO();
-    if (null == cid || cid.length() != 6) {
-        logger.error(&quot;invalid cid&quot;);
-        return null;
-    }
-    Integer ver = NumberUtils.toInt(cid.substring(3));
-    VersionDto dto = InnerCache.read(ver);
-    Boolean isNewest = InnerCache.isNewestVersion(ver);
-    if (isNewest) { //缓存命中，无需升级
-        vo.setIsCanUpgrade(false);
-        vo.setIsForceUpgrade(false);
-    } else { // 缓存命中，提示升级
-        if (null != dto) {
-            dto = InnerCache.getNewestVersion();
-            vo.setIsCanUpgrade(true);
-            vo.setIsForceUpgrade(false);
-        } else { //没命中，强制升级，读库，更新缓存
-            // todo 读库这一块如何设计？ 缓存失效时间？，以及并发请求如何上锁，防止DB跪？？？
-            try {
-                dto = MySQLUtils.queryByVersionNo(ver);
-                InnerCache.write(dto);
-                vo.setIsForceUpgrade(true);
-                vo.setIsCanUpgrade(true);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    vo.setVersionUrl(dto.getVersionUrl());
-    vo.setVersionDesc(dto.getVersionDesc());
-    vo.setVersionNo(dto.getVersionNo());
-    return vo;
-}
-</code></pre><hr>
-<h3 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h3><p><img src="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/e7cd7b899e510fb320e0eca2d033c895d1430c0d.jpg" alt="代码结构"></p>
-<blockquote>
-<ol>
-<li>api为对客户端接口，最好是控制逻辑流程，具体业务的实现可以考虑在service中实现</li>
-<li>bto(Browser transfer obj),用于返回给客户端类的存储</li>
-<li>dto(Data transfer obj)用于与DB或者远程服务交互的数据</li>
-<li>vo(value obj)用于内部实体数据交互</li>
-</ol>
-</blockquote>
-<hr>
-<h3 id="后续展望-amp-总结"><a href="#后续展望-amp-总结" class="headerlink" title="后续展望&amp;总结"></a>后续展望&amp;总结</h3><blockquote>
-<ul>
-<li>灰度版本的情况，需要结合客户端基础数据的收集，可能需要一个MAPI数据分析平台来支撑，如此，版本发布管理的功能可以嵌入到数据分析平台中</li>
-</ul>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/11/14/关于MMC-MAPI多版本设计的一点想法/" data-id="civxgh7iu0000w409ha4bto55" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/11/22/快速排序实现之递归与非递归/" data-id="cixb6nu0p00019c09gi9jf4zn" class="article-share-link">Share</a>
       
       
     </footer>
